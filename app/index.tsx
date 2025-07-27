@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import TeacherDashboard from '../components/TeacherDashboard';
 import ManagerDashboard from '../components/ManagerDashboard';
 import { useApp } from '../components/AppContext';
+import { router } from 'expo-router';
 
 export default function App() {
-  const { userType } = useApp();
+  const { userType, isAuthenticated } = useApp();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.replace('/auth/login');
+    }
+  }, [isAuthenticated]);
+
+  // Se não estiver autenticado, não renderizar nada
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <View style={styles.container}>

@@ -1,4 +1,4 @@
-import { Stack } from 'expo-router';
+import { Stack, Slot } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { PaperProvider, MD3LightTheme } from 'react-native-paper';
 import * as React from 'react';
@@ -32,7 +32,16 @@ const customTheme = {
 };
 
 function AppLayout() {
-  const { userType, sidebarOpen, setSidebarOpen } = useApp();
+  const { userType, sidebarOpen, setSidebarOpen, isAuthenticated } = useApp();
+
+  // Se não estiver autenticado, renderizar apenas o Slot para as telas de auth
+  if (!isAuthenticated) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <Slot />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>

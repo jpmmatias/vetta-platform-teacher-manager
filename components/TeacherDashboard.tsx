@@ -1,8 +1,9 @@
 "use client"	
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, Text, TouchableOpacity } from 'react-native';
-import { Card, Chip, List, Avatar, Divider } from 'react-native-paper';
+import { Card, Chip, List, Avatar, Divider, FAB } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
+import QuickActionsModal from './QuickActionsModal';
 
 const statMeta = [
   {
@@ -36,6 +37,7 @@ const statMeta = [
 ];
 
 export default function TeacherDashboard() {
+  const [showQuickActions, setShowQuickActions] = useState(false);
   const stats = [
     { value: '156' },
     { value: '28' },
@@ -218,6 +220,18 @@ export default function TeacherDashboard() {
         </Card.Content>
       </Card>
       </View>
+      
+      <FAB
+        icon="plus"
+        style={styles.fab}
+        onPress={() => setShowQuickActions(true)}
+        label="Ações Rápidas"
+      />
+
+      <QuickActionsModal
+        visible={showQuickActions}
+        onDismiss={() => setShowQuickActions(false)}
+      />
     </ScrollView>
   );
 }
@@ -439,5 +453,12 @@ const styles = StyleSheet.create({
   insightText: {
     fontSize: 14,
     lineHeight: 20,
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#3b82f6',
   },
 }); 

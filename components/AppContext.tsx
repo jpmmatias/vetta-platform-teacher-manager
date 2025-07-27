@@ -6,6 +6,14 @@ interface AppContextType {
   setUserType: (type: 'teacher' | 'manager') => void;
   sidebarOpen: boolean;
   setSidebarOpen: (open: boolean) => void;
+  isAuthenticated: boolean;
+  setIsAuthenticated: (authenticated: boolean) => void;
+  user: {
+    name: string;
+    email: string;
+    avatar?: string;
+  } | null;
+  setUser: (user: { name: string; email: string; avatar?: string } | null) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -13,6 +21,8 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export function AppProvider({ children }: { children: ReactNode }) {
   const [userType, setUserType] = useState<'teacher' | 'manager'>('teacher');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<{ name: string; email: string; avatar?: string } | null>(null);
 
   return (
     <AppContext.Provider value={{
@@ -20,6 +30,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
       setUserType,
       sidebarOpen,
       setSidebarOpen,
+      isAuthenticated,
+      setIsAuthenticated,
+      user,
+      setUser,
     }}>
       {children}
     </AppContext.Provider>

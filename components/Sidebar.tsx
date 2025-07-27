@@ -14,11 +14,13 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ userType, onUserTypeChange, onClose, visible }: SidebarProps) {
-  const { setUserType } = useApp();
+  const { setIsAuthenticated, setUser, setUserType } = useApp();
   const teacherMenuItems = [
     { icon: 'home' as const, label: 'Dashboard', count: 0 , active: true , route: '/'},
-    { icon: 'people' as const, label: 'Minhas Turmas', count: 4 , active: false , route: '/teacher/classes'}, { icon: 'psychology' as const, label: 'Correção IA', count: 12 , active: false , route: '/teacher/ai-correction'},
+    { icon: 'people' as const, label: 'Minhas Turmas', count: 4 , active: false , route: '/teacher/classes'},
     { icon: 'description' as const, label: 'Atividades', count: 28 , active: false , route: '/teacher/activities'},
+    { icon: 'assignment' as const, label: 'Correções', count: 15 , active: false , route: '/teacher/corrections'},
+    { icon: 'psychology' as const, label: 'Correção IA', count: 12 , active: false , route: '/teacher/ai-correction'},
     { icon: 'bar-chart' as const, label: 'Relatórios' , count: 0 , active: false , route: '/teacher/reports'},
     { icon: 'event' as const, label: 'Cronograma', count: 0 , active: false , route: '/teacher/schedule'},
     { icon: 'message' as const, label: 'Feedback', count: 0 , active: false , route: '/teacher/feedback'},
@@ -140,6 +142,17 @@ export default function Sidebar({ userType, onUserTypeChange, onClose, visible }
             {userType === 'teacher' ? 'Matemática' : 'Diretor Acadêmico'}
           </Text>
         </View>
+        <TouchableOpacity
+          onPress={() => {
+            setIsAuthenticated(false);
+            setUser(null);
+            setUserType('teacher');
+            onClose?.();
+          }}
+          style={styles.logoutButton}
+        >
+          <MaterialIcons name="logout" size={20} color="#ef4444" />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -304,5 +317,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#6b7280',
     marginTop: 2,
+  },
+  logoutButton: {
+    padding: 8,
+    borderRadius: 8,
+    backgroundColor: '#fef2f2',
   },
 }); 
